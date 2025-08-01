@@ -2,10 +2,15 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [red, setRed] = useState("0");
-  const [green, setGreen] = useState("0");
-  const [blue, setBlue] = useState("0");
+  const colors = JSON.parse(localStorage.getItem("color"));
+  const [red, setRed] = useState(colors && colors.red ? colors.red : 0);
+  const [green, setGreen] = useState(colors && colors.green ? colors.green : 0);
+  const [blue, setBlue] = useState(colors && colors.blue ? colors.blue : 0);
 
+  const save = () => {
+    console.log("saved");
+    localStorage.setItem("color", JSON.stringify({ red, green, blue }));
+  };
   return (
     <>
       <h2>RGB Color Genrator</h2>
@@ -28,6 +33,7 @@ function App() {
           onChange={(e) => setRed(e.target.value)}
           min={0}
           max={255}
+          value={red}
         />
         <br />
         <br />
@@ -38,6 +44,7 @@ function App() {
           onChange={(e) => setGreen(e.target.value)}
           min={0}
           max={255}
+          value={green}
         />
         <br />
         <br />
@@ -48,7 +55,12 @@ function App() {
           onChange={(e) => setBlue(e.target.value)}
           min={0}
           max={255}
+          value={blue}
         />
+
+        <br />
+        <br />
+        <button onClick={save}>Save color combination</button>
       </div>
     </>
   );
